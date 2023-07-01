@@ -21,6 +21,12 @@ export const getAllProducts = async ( req: Request, res: Response, next: NextFun
 export const createProduct = async ( req: Request, res: Response, next: NextFunction ) => {
     const body = req.body;
     try{
+        if(req.userAuth.role === 0){
+            const err: Error = new Error('access denied! Admin Only!');
+            err.statusCode = 400;
+            throw(err); 
+        }
+
         const newProduct = new Poroduct(body);
         await newProduct.save();
         
@@ -45,6 +51,12 @@ export const createProduct = async ( req: Request, res: Response, next: NextFunc
 
 export const updateProduct = async ( req: Request, res: Response, next: NextFunction ) => {
     try{
+        if(req.userAuth.role === 0){
+            const err: Error = new Error('access denied! Admin Only!');
+            err.statusCode = 400;
+            throw(err); 
+        }
+
         const updatedProduct = await findProudctAndUpdate(req);
         if(!updatedProduct){
             const err: Error = new Error('product is not found!');
@@ -67,6 +79,12 @@ export const updateProduct = async ( req: Request, res: Response, next: NextFunc
 export const deleteProduct = async ( req: Request, res: Response, next: NextFunction ) => {
     const productId = req.params.id;
     try {
+        if(req.userAuth.role === 0){
+            const err: Error = new Error('access denied! Admin Only!');
+            err.statusCode = 400;
+            throw(err); 
+        }
+        
         const deletedProduct = await findProudctAndDelete(productId);
         if(!deletedProduct){
             const err: Error = new Error('product is not found!');

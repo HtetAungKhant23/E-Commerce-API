@@ -1,12 +1,14 @@
 import express, { Express } from "express";
 import { connection } from "./configs/dbConnect";
-import router from "./routes/productRoute";
+import productRouter from "./routes/productRoute";
+import authRouter from "./routes/authRoute";
 import { errorHandler } from "./middlewares/errorHandlers/errorHandler";
 
 const app: Express = express();
 app.use(express.json());
 
-app.use('/api/v1', router);
+app.use('/api/v1/products', productRouter);
+app.use('/api/v1/auth', authRouter);
+
 app.use(errorHandler);
 connection(app);
-

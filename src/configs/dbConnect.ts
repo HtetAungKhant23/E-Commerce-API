@@ -1,16 +1,12 @@
 import { connect } from "mongoose";
 import { Express } from "express";
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const Url: string = process.env.MONGO_URL || '';
-const Port = process.env.PORT || 5000;
+import { config } from "./config";
 
 export const connection = async (app: Express) => {
     try {
-        await connect(Url);
+        await connect(config.MONGO_URL);
         console.log('connected database....');
-        app.listen(Port, () => {
+        app.listen(config.PORT, () => {
             console.log('server is running...');
         });
     } catch (err: unknown) {

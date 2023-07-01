@@ -8,8 +8,8 @@ interface ICart {
     }
 }
 
-interface IUser {
-    username: string,
+export interface IUser {
+    user_name: string,
     email: string,
     password: string,
     phone?: string,
