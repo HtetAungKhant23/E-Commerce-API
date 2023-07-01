@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { successResponse } from "../middlewares/errorHandlers/responseHandler";
+import createAnOrder from "../services/orderService";
 
 export const createOrder = async (req: Request, res: Response, next: NextFunction) => {
      try {
-       
         const order = await createAnOrder(req);
-       res.status(201).json(
+        res.status(201).json(
             successResponse(
-                {},
-                'success',
+                order,
+                'successfully order created!',
                 200
             )
         );
