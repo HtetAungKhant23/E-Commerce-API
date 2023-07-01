@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { findAllProduct, findProudctAndDelete, findProudctAndUpdate } from "./adminService";
+import { findAllProduct, findProudctAndDelete, findProudctAndUpdate } from "./productService";
 import { successResponse } from "../../utils/responseHandler";
 import Poroduct, { IProduct } from "../../models/productModel";
 

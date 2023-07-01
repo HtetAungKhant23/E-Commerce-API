@@ -1,6 +1,6 @@
 import express, { Express } from "express";
 import { connection } from "./configs/dbConnect";
-import router from "./routes/admin/adminRoutes";
+import router from "./routes/products/productRoute";
 import { errorHandler } from "./utils/errorHandler";
 
 const app: Express = express();
