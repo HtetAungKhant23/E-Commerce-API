@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { ICart } from "./userModel";
+import { ICart } from "./cartModel";
 
 interface IOrder {
     user_id: {

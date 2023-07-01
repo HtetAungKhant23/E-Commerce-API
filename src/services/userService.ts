@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { User } from "../models/userModel";
+import User from "../models/userModel";
 import bcrypt from "bcrypt";
 
 export const createUser = async ( req: Request ) => {

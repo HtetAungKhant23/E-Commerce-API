@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { findAllProduct, findProudctAndDelete, findProudctAndUpdate } from "../services/productService";
 import { successResponse } from "../middlewares/errorHandlers/responseHandler";
 import Poroduct, { IProduct } from "../models/productModel";
+import User, { IUser } from "../models/userModel";
 
 export const getAllProducts = async ( req: Request, res: Response, next: NextFunction ) => {
     try {
@@ -100,6 +101,47 @@ export const deleteProduct = async ( req: Request, res: Response, next: NextFunc
         )
 
     }catch(err: any){
+        next(err);
+    }
+}
+
+export const addToCart = async ( req: Request, res: Response, next: NextFunction ) => {
+    const _id = req.userAuth.id;
+    const productId = req.body.product_id;
+    const productPrice = req.body.price;
+    const productQuantity = req.body.quantity;
+    try {
+        const user:any = await User.findById({_id});
+        let cartProducts = user?.cart.products;
+        console.log('carts', cartProducts)
+        console.log('productId', productId)
+        const existingProductIndex = cartProducts.findIndex((product: any) => product.
+product_id.toString() === productId)
+        console.log("cart id", existingProductIndex)
+        if (existingProductIndex > -1) {
+            console.log('id', cartProducts[existingProductIndex])
+            cartProducts[existingProductIndex].quantity += productQuantity || 1;
+            user.cart.products = cartProducts;
+            await user.save();
+        }else {
+            const newProduct = {
+                product_id: productId,
+                quantity: productQuantity || 1,
+                price: productPrice
+            }
+            user.cart.products.push(newProduct)
+            await user.save();
+        }
+        res.status(201).json(
+            successResponse(
+                {},
+                'cart added successfully!',
+                201
+            )
+        );
+       
+    }catch(err: any){
+        console.log(err)
         next(err);
     }
 }
