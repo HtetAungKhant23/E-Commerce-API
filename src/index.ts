@@ -1,7 +1,7 @@
 import express, { Express } from "express";
 import { connection } from "./configs/dbConnect";
-import router from "./routes/products/productRoute";
-import { errorHandler } from "./utils/errorHandler";
+import router from "./routes/productRoute";
+import { errorHandler } from "./middlewares/errorHandlers/errorHandler";
 
 const app: Express = express();
 app.use(express.json());

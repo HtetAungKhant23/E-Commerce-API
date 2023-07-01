@@ -1,4 +1,4 @@
-import Poroduct from "../../models/productModel";
+import Poroduct from "../models/productModel";
 import { Request } from "express";
 
 export const findAllProduct = () => {

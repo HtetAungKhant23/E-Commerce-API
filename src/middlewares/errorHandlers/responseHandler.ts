@@ -1,4 +1,4 @@
-import { ResponseType, ResponseErrorType } from "../types";
+import { ResponseType, ResponseErrorType } from "../../types";
 
 export function successResponse<T>(
   data: T,
