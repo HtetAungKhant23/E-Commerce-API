@@ -33,15 +33,15 @@ This is an online e-commerce API that is built on Express and MongoDB. And I hav
 |----------------|-------------------------------|------------------------
 |*Base_URl*     |/products <br> /products/id      | GET
 |*Base_URl*        |/cart            |GET          |
-|*Base_URl*        |/orders <br>   /orders/id    |POST, GET, PUT, DELETE|
-|*Base_URl*        |/address <br>   /address/id <space>    |POST, GET, PUT, DELETE|
+|*Base_URl*        |/orders <br>   /orders/id    |POST, GET, PATCH, DELETE|
+|*Base_URl*        |/address <br>   /address/id <space>    |POST, GET, PATCH, DELETE|
 
 - ***Endpoints that can be accessed by admins are as follows:***
 
 
 |                |url                          |methods                        |
 |----------------|-------------------------------|------------------------
-*Base_URl*        |/customers <br>   /customers/id  |POST, GET, UPDATE, PUT|
-|*Base_URl*     |/products <br> /products/id      | POST, GET, PUT, DELETE|
-|*Base_URl*        |/orders <br>   /orders/id    |POST, GET, PUT, DELETE|
-|*Base_URl*        |/address <br>   /address/id <space>    |POST, GET, UPDATE, PUT|
+*Base_URl*        |/customers <br>   /customers/id  |POST, GET, UPDATE, PATCH|
+|*Base_URl*     |/products <br> /products/id      | POST, GET, PATCH, DELETE|
+|*Base_URl*        |/orders <br>   /orders/id    |POST, GET, PATCH, DELETE|
+|*Base_URl*        |/address <br>   /address/id <space>    |POST, GET, UPDATE, PATCH|
