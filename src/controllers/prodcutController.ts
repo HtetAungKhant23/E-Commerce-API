@@ -3,8 +3,9 @@ import { addToCartService, findAllProduct, findProudctAndDelete, findProudctAndU
 import { successResponse } from "../middlewares/errorHandlers/responseHandler";
 import Poroduct, { IProduct } from "../models/productModel";
 import User, { IUser } from "../models/userModel";
+import { IError, IRequest } from "../types";
 
-export const getAllProducts = async ( req: Request, res: Response, next: NextFunction ) => {
+export const getAllProducts: any = async ( req: IRequest, res: Response, next: NextFunction ) => {
     try {
         const products = await findAllProduct();
 
@@ -19,11 +20,11 @@ export const getAllProducts = async ( req: Request, res: Response, next: NextFun
     }
 }
 
-export const createProduct = async ( req: Request, res: Response, next: NextFunction ) => {
+export const createProduct: any = async ( req: IRequest, res: Response, next: NextFunction ) => {
     const body = req.body;
     try{
         if(req.userAuth.role === 0){
-            const err: Error = new Error('access denied! Admin Only!');
+            const err: IError = new Error('access denied! Admin Only!');
             err.statusCode = 400;
             throw(err); 
         }
@@ -32,7 +33,7 @@ export const createProduct = async ( req: Request, res: Response, next: NextFunc
         await newProduct.save();
         
         if(!newProduct){
-            const err: Error = new Error('cannot create product!');
+            const err: IError = new Error('cannot create product!');
             err.statusCode = 400;
             throw(err);
         }
@@ -50,17 +51,17 @@ export const createProduct = async ( req: Request, res: Response, next: NextFunc
     }
 }
 
-export const updateProduct = async ( req: Request, res: Response, next: NextFunction ) => {
+export const updateProduct: any = async ( req: IRequest, res: Response, next: NextFunction ) => {
     try{
         if(req.userAuth.role === 0){
-            const err: Error = new Error('access denied! Admin Only!');
+            const err: IError = new Error('access denied! Admin Only!');
             err.statusCode = 400;
             throw(err); 
         }
 
         const updatedProduct = await findProudctAndUpdate(req);
         if(!updatedProduct){
-            const err: Error = new Error('product is not found!');
+            const err: IError = new Error('product is not found!');
             err.statusCode = 404;
             throw err;
         }
@@ -77,18 +78,18 @@ export const updateProduct = async ( req: Request, res: Response, next: NextFunc
     }
 }
 
-export const deleteProduct = async ( req: Request, res: Response, next: NextFunction ) => {
+export const deleteProduct:any = async ( req: IRequest, res: Response, next: NextFunction ) => {
     const productId = req.params.id;
     try {
         if(req.userAuth.role === 0){
-            const err: Error = new Error('access denied! Admin Only!');
+            const err: IError = new Error('access denied! Admin Only!');
             err.statusCode = 400;
             throw(err); 
         }
         
         const deletedProduct = await findProudctAndDelete(productId);
         if(!deletedProduct){
-            const err: Error = new Error('product is not found!');
+            const err: IError = new Error('product is not found!');
             err.statusCode = 404;
             throw err;
         }
@@ -105,7 +106,7 @@ export const deleteProduct = async ( req: Request, res: Response, next: NextFunc
     }
 }
 
-export const addToCart = async ( req: Request, res: Response, next: NextFunction ) => {
+export const addToCart:any = async ( req: IRequest, res: Response, next: NextFunction ) => {
     try{
         const cart = await addToCartService(req);
         if(cart) {

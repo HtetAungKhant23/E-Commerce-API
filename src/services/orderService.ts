@@ -1,8 +1,9 @@
 import { Request } from "express";
 import Order from "../models/orderModel";
 import User from "../models/userModel";
+import { IRequest } from "../types";
 
-const createAnOrder = async (req: Request) => {
+const createAnOrder = async (req: IRequest) => {
     const user_id = req.userAuth.id;
     const user:any = await User.findById(user_id);
     let cartProducts = user?.cart.products;

@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { successResponse } from "../middlewares/errorHandlers/responseHandler";
 import { findAllCart } from "../services/cartService";
+import { IError } from "../types";
 
-export const getCart = async ( req: Request, res: Response, next: NextFunction ) => {
+export const getCart: any = async ( req: Request, res: Response, next: NextFunction ) => {
     try {
        const cart = await findAllCart();
        if(!cart){
-            const err: Error = new Error('cart not found!');
+            const err: IError = new Error('cart not found!');
             err.statusCode = 404;
             throw(err); 
        }

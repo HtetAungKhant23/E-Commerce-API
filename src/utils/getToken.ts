@@ -1,7 +1,7 @@
-import { Request } from "express";
+import { IHeader, IRequest } from "../types";
 
-export const getToken = ( req: Request ) => {
-    const header = req.headers;
+export const getToken = ( req: IRequest ) => {
+    const header: IHeader = req.headers;
     const token = header.authorization?.split(" ")[1];
     return token;
 } 

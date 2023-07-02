@@ -1,12 +1,13 @@
 import Poroduct from "../models/productModel";
 import { Request } from "express";
 import User from "../models/userModel";
+import { IRequest } from "../types";
 
 export const findAllProduct = () => {
     return Poroduct.find();
 }
 
-export const findProudctAndUpdate = async ( req: Request ) => {
+export const findProudctAndUpdate = async ( req: IRequest ) => {
     const productId = req.params.id;
     const body = req.body;
     const updatedProduct = await Poroduct.findByIdAndUpdate(productId,body);
@@ -25,7 +26,7 @@ export const findProudctAndDelete = async ( id: string ) => {
     return deletedProduct;
 }
 
-export const addToCartService =async (req:Request) => {
+export const addToCartService =async (req:IRequest) => {
     const _id = req.userAuth.id;
     const productId = req.body.product_id;
     const productQuantity = req.body.quantity;

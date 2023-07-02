@@ -3,13 +3,14 @@ import { successResponse } from "../middlewares/errorHandlers/responseHandler";
 import { createUser, loginUser } from "../services/userService";
 import User from "../models/userModel";
 import { generateToken } from "../utils/generateToken";
+import { IError } from "../types";
 
 export const register = async ( req: Request, res: Response, next: NextFunction ) => {
     try{
         const isUserAlreadyExited = await User.findOne({email: req.body.email});
 
         if(isUserAlreadyExited) {
-            const err: Error = new Error('User already exist with this email!');
+            const err: IError = new Error('User already exist with this email!');
             err.statusCode = 403;
             throw(err);
         }
@@ -31,11 +32,11 @@ export const login = async ( req: Request, res: Response, next: NextFunction ) =
     try{
         const user = await loginUser(req);
         if(!user){
-            const err: Error = new Error('email does not found or password is wrong!');
+            const err: IError = new Error('email does not found or password is wrong!');
             err.statusCode = 403;
             throw(err);
         }
-        const token = generateToken({id: user._id, name: user.user_name, role: user.role});
+        const token = generateToken({id: user._id, role: user.role});
         const data = {
             name: user.user_name,
             email: user.email,
