@@ -1,11 +1,12 @@
 {
-  "name": "e-commerence api",
+  "name": "ecommerence_api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --files src/index.ts",
     "build": "cd src && npx tsc",
+    "start": "cd dist && node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
