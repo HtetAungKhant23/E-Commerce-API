@@ -17,7 +17,7 @@ app.use(cors({
 }));
 
 app.get('/api/v1', function(req, res) {
-  let filePath = path.join(__dirname + "/views/doc.html");
+  let filePath = path.join(__dirname + "/doc.html");
   filePath = filePath.replace('\\', '/');
   res.sendFile(filePath);
 });
