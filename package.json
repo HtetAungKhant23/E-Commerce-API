@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --files src/index.ts",
-    "build": "cd src && npx tsc",
+    "build": "pnpm install && npx tsc",
     "start": "cd dist && node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
