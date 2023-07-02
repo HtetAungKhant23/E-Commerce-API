@@ -1,1 +1,0 @@
-{"version":3,"file":"getToken.js","sourceRoot":"","sources":["../../src/utils/getToken.ts"],"names":[],"mappings":";;;AAEO,MAAM,QAAQ,GAAG,CAAE,GAAa,EAAG,EAAE;;IACxC,MAAM,MAAM,GAAY,GAAG,CAAC,OAAO,CAAC;IACpC,MAAM,KAAK,GAAG,MAAA,MAAM,CAAC,aAAa,0CAAE,KAAK,CAAC,GAAG,EAAE,CAAC,CAAC,CAAC;IAClD,OAAO,KAAK,CAAC;AACjB,CAAC,CAAA;AAJY,QAAA,QAAQ,YAIpB"}
