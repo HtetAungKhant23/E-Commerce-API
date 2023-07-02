@@ -1,8 +1,7 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import { addToCartService, findAllProduct, findProudctAndDelete, findProudctAndUpdate } from "../services/productService";
 import { successResponse } from "../middlewares/errorHandlers/responseHandler";
 import Poroduct, { IProduct } from "../models/productModel";
-import User, { IUser } from "../models/userModel";
 import { IError, IRequest } from "../types";
 
 export const getAllProducts: any = async ( req: IRequest, res: Response, next: NextFunction ) => {
