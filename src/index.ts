@@ -1,5 +1,4 @@
-import express, { Express } from "express";
-import fs from "fs";
+import express, { Express, Request, Response } from "express";
 import path from "path";
 import { connection } from "./configs/dbConnect";
 import productRouter from "./routes/productRoute";
@@ -16,10 +15,8 @@ app.use(cors({
   credentials: true,
 }));
 
-app.get('/api/v1', function(req, res) {
-  let filePath = path.join(__dirname + "/doc.html");
-  filePath = filePath.replace('\\', '/');
-  res.sendFile(filePath);
+app.get('/api/v1', (req: Request, res: Response) => {
+  res.send('Welcome From Ecommerce API(version 1), Here is source code https://github.com/HtetAungKhant23/E-Commerce-API.git');
 });
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/auth', authRouter);
