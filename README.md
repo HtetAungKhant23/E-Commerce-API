@@ -2,7 +2,7 @@
 
 This is an online e-commerce API that is built on Express and MongoDB. And I have used TypeScript.
 
-> Base_URL: https://ecommerce-78ih.onrender.com/api/v1
+> Base_URL: https://ecommerce-78ih.onrender.com/api_/v1/
 
 ## Customer Features
 
