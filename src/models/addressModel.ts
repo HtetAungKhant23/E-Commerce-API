@@ -1,15 +1,16 @@
 import { Schema, model } from "mongoose";
 
-interface IAddress {
+export interface IAddress {
     user_id: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    receiver_name: string,
+    name: string,
     phone: string,
     address: {
-        township: string,
-        street: string
+        street: string,
+        city: string,
+        township: string,        
     }
 }
 
@@ -18,7 +19,7 @@ const addressSchema: Schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    receiver_name: {
+    name: {
         type: String,
         required: true
     },
@@ -27,9 +28,18 @@ const addressSchema: Schema = new Schema({
         required: true
     },
     address: {
-        township: String,
-        street: String,
-        required: true
+        street: {
+            type: String,
+            required: true
+        },
+        city: {
+            type: String,
+            required: true
+        },
+        township: {
+            type: String,
+            required: true
+        }
     }    
 });
 

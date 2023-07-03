@@ -7,13 +7,11 @@ import { IError, IRequest } from "../types";
 export const getAllProducts: any = async ( req: IRequest, res: Response, next: NextFunction ) => {
     try {
         const products = await findAllProduct();
-
         res.status(200).json(successResponse<IProduct[]>(
             products,
             'success',
             200
         ));
-
     }catch(err: any){
         next(err);
     }
@@ -22,12 +20,6 @@ export const getAllProducts: any = async ( req: IRequest, res: Response, next: N
 export const createProduct: any = async ( req: IRequest, res: Response, next: NextFunction ) => {
     const body = req.body;
     try{
-        if(req.userAuth.role === 0){
-            const err: IError = new Error('access denied! Admin Only!');
-            err.statusCode = 400;
-            throw(err); 
-        }
-
         const newProduct = new Poroduct(body);
         await newProduct.save();
         
@@ -52,16 +44,8 @@ export const createProduct: any = async ( req: IRequest, res: Response, next: Ne
 
 export const updateProduct: any = async ( req: IRequest, res: Response, next: NextFunction ) => {
     try{
-        if(req.userAuth.role === 0){
-            const err: IError = new Error('access denied! Admin Only!');
-            err.statusCode = 400;
-            throw(err); 
-        }
-
-        const updatedProduct = await findProudctAndUpdate(req);
-        if(!updatedProduct){
-            const err: IError = new Error('product is not found!');
-            err.statusCode = 404;
+        const { updatedProduct, err } = await findProudctAndUpdate(req);
+        if(err){
             throw err;
         }
         res.status(200).json(
@@ -70,8 +54,7 @@ export const updateProduct: any = async ( req: IRequest, res: Response, next: Ne
                 `Product is successully deleted with this id = ${updatedProduct._id}`,
                 200
             )
-        )
-
+        );
     }catch(err: any){
         next(err);
     }
@@ -79,17 +62,9 @@ export const updateProduct: any = async ( req: IRequest, res: Response, next: Ne
 
 export const deleteProduct:any = async ( req: IRequest, res: Response, next: NextFunction ) => {
     const productId = req.params.id;
-    try {
-        if(req.userAuth.role === 0){
-            const err: IError = new Error('access denied! Admin Only!');
-            err.statusCode = 400;
-            throw(err); 
-        }
-        
-        const deletedProduct = await findProudctAndDelete(productId);
-        if(!deletedProduct){
-            const err: IError = new Error('product is not found!');
-            err.statusCode = 404;
+    try {        
+        const { deletedProduct, err } = await findProudctAndDelete(productId);
+        if(err){
             throw err;
         }
         res.status(200).json(
@@ -107,18 +82,18 @@ export const deleteProduct:any = async ( req: IRequest, res: Response, next: Nex
 
 export const addToCart:any = async ( req: IRequest, res: Response, next: NextFunction ) => {
     try{
-        const cart = await addToCartService(req);
-        if(cart) {
-             res.status(201).json(
+        const { cart, err } = await addToCartService(req);
+        if(err) {
+            throw err;
+        }
+        res.status(201).json(
             successResponse(
-                {},
-                'cart added successfully!',
-                201
+            {},
+            'cart added successfully!',
+            201
             )
         );
-        }
     }catch(err: any){
-        console.log(err)
         next(err);
     }
 }

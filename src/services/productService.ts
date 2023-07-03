@@ -1,7 +1,6 @@
 import Poroduct from "../models/productModel";
-import { Request } from "express";
 import User from "../models/userModel";
-import { IRequest } from "../types";
+import { IError, IRequest } from "../types";
 
 export const findAllProduct = () => {
     return Poroduct.find();
@@ -12,18 +11,20 @@ export const findProudctAndUpdate = async ( req: IRequest ) => {
     const body = req.body;
     const updatedProduct = await Poroduct.findByIdAndUpdate(productId,body);
     if(!updatedProduct){
-        return false;
+        const err: IError = new Error('Something went wrong in product-updating process!');
+        err.statusCode = 500;
+        return { undefined, err };
     }
-    return updatedProduct;
+    return { updatedProduct, undefined };
 }
 
 export const findProudctAndDelete = async ( id: string ) => {
     const deletedProduct = await Poroduct.findByIdAndDelete(id);
-    console.log(deletedProduct);
     if(!deletedProduct){
-        return false;
+        const err: IError = new Error('Something went wrong in product-deleting process!');
+        return { undefined, err };
     }
-    return deletedProduct;
+    return { deletedProduct, undefined };
 }
 
 export const addToCartService =async (req:IRequest) => {
@@ -46,9 +47,15 @@ export const addToCartService =async (req:IRequest) => {
             quantity: productQuantity || 1,
             price: product?.price
         }
-        user.cart.products.push(newProduct)
+        user.cart.products.push(newProduct);
         await user.save();
     }
-    return user.cart.products;
+    if(!user){
+        const err: IError = new Error('Something went wrong in add-to-cart process!');
+        err.statusCode = 500;
+        return { undefined, err };
+    }
+    const cart = user.cart.products;
+    return { cart, undefined };
 }
 

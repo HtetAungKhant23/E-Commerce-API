@@ -1,5 +1,4 @@
 import express, { Express, Request, Response } from "express";
-import path from "path";
 import { connection } from "./configs/dbConnect";
 import productRouter from "./routes/productRoute";
 import authRouter from "./routes/authRoute";

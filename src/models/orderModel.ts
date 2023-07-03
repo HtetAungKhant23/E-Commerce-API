@@ -1,11 +1,13 @@
 import { Schema, model } from "mongoose";
 import { ICart } from "./cartModel";
+import { IAddress } from "./addressModel";
 
 interface IOrder {
     user_id: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    address_id: IAddress,
     products: ICart[],
     total_price: number,
     confirm_status: boolean
