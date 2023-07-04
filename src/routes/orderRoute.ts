@@ -8,6 +8,6 @@ router.get('/', isAuth, getOrder);
 router.post('/', isAuth, createOrder);
 router.patch('/', isAuth, updateOrder);
 router.delete('/', isAuth, deleteOrder);
-router.post('/order-confirm', isAuth, isAdmin, orderConfirm);
+router.post('/confirm', isAuth, isAdmin, orderConfirm);
 
 export default router;

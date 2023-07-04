@@ -126,8 +126,8 @@ export const updateOrderByUser = async ( req: IRequest ) => {
 
         await Address.findByIdAndDelete(order?.address_id);
 
-        // order?.address_id = newAddress?._id;
-        // await order?.save();
+        order?.address_id = newAddress?._id;
+        await order?.save();
         return { order, undefined };
 
     }catch(err: unknown){
