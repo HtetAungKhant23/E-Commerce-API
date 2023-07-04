@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from "express";
+import path from "path";
 import { connection } from "./configs/dbConnect";
 import productRouter from "./routes/productRoute";
 import authRouter from "./routes/authRoute";
@@ -15,9 +16,10 @@ app.use(cors({
 }));
 
 app.get('/api/v1', (req: Request, res: Response) => {
-  // res.send('<html><head><title>Document</title><body><h1>Welcome From Ecommerce API(version 1)</h1><a href=https://github.com/HtetAungKhant23/E-Commerce-API.git>Source Code</a></body></html>');
-  res.redirect('https://api-doc-ecommerce.onrender.com/doc.html');
+  const filePath = path.join(__dirname, './views/doc.html');
+  res.sendFile(filePath);
 });
+
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/cart', cartRouter);

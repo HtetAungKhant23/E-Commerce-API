@@ -31,16 +31,14 @@ const userSchema: Schema = new Schema({
         default: 0
     },
     cart: {
-        products: [
-        {
+        products: [{
             product_id:{
                 type: Schema.Types.ObjectId,
                 ref: 'Product',
             },
             price: Number,
             quantity: Number
-        }
-        ]
+        }]
     }
 });
 

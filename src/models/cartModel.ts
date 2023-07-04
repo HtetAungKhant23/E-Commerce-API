@@ -8,7 +8,6 @@ export interface ICart {
     products: {
         product_id: Schema.Types.ObjectId,
         quantity: number,
-        price?: number,
         ref: 'Product'
     }
 }
@@ -24,6 +23,7 @@ const cartSchema: Schema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Product'
         },
+        price: Number,
         quantity: {
             type: Number,
             default: 1

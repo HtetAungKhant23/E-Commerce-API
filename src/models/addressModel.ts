@@ -17,7 +17,8 @@ export interface IAddress {
 const addressSchema: Schema = new Schema({
     user_id: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     name: {
         type: String,

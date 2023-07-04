@@ -1,4 +1,4 @@
-import { NextFunction, RequestParamHandler, Response } from "express";
+import { NextFunction, Response } from "express";
 import { verifyToekn } from "../utils/verifyToken";
 import { getToken } from "../utils/getToken";
 import { IError, IRequest } from "../types";

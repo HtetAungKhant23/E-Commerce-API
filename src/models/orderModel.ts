@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import { ICart } from "./cartModel";
 import { IAddress } from "./addressModel";
 
-interface IOrder {
+export interface IOrder {
     user_id: {
         type: Schema.Types.ObjectId,
         ref: 'User'
@@ -21,13 +21,14 @@ const orderShcema: Schema = new Schema({
     },
     address_id: {
         type: Schema.Types.ObjectId,
-        ref: 'address'
+        ref: 'Address'
     },
     products: [{
         product_id: {
             type: Schema.Types.ObjectId,
             ref: 'Product'
         },
+        price: Number,
         quantity: {
             type: Number,
             default: 1
