@@ -1,7 +1,7 @@
 import { Response, NextFunction } from "express";
 import { successResponse } from "../middlewares/errorHandlers/responseHandler";
-import { IError, IRequest } from "../types";
-import { createAnOrder, getAllOrder, updateOrderByUser } from "../services/orderService";
+import { IRequest } from "../types";
+import { createAnOrder, deleteOrderByUser, getAllOrder, getOrderByUserId, updateOrderByUser } from "../services/orderService";
 
 export const createOrder:any = async (req: IRequest, res: Response, next: NextFunction) => {
     try {
@@ -58,5 +58,42 @@ export const updateOrder: any = async (req: IRequest, res: Response, next: NextF
 }
 
 export const deleteOrder: any = async (req: IRequest, res: Response, next: NextFunction) => {
-    
+    try {
+        const { deletedOrder, err }: any = await deleteOrderByUser(req);
+        if(err){
+            throw err;
+        }
+        res.status(200).json(
+            successResponse(
+                {},
+                'order is successfully deleted!',
+                200
+            )
+        );
+    } catch (err: unknown) {
+        next(err);
+    }
+}
+
+export const orderConfirm: any = async (req: IRequest, res: Response, next: NextFunction) => {
+    try {
+        const { order, err }: any = await getOrderByUserId(req.userAuth.id);
+        if(err || order.confirm_status){
+            const error =  err? err : new Error('Order is already confirmed by Admin!');
+            throw error;
+        }
+        order.confirm_status = true;
+        await order.save();
+
+        res.status(200).json(
+            successResponse(
+                order,
+                'Order successfully confirmed!',
+                200
+            )
+        );
+
+    } catch(err: unknown) {
+        next(err);
+    }
 }

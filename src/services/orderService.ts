@@ -130,18 +130,23 @@ export const updateOrderByUser = async ( req: IRequest ) => {
         // await order?.save();
         return { order, undefined };
 
-        
     }catch(err: unknown){
         return { undefined, err };
     }
 }
 
-// export const deleteOrderByUser = async ( req: IRequest ) => {
-//     const body = req.body;
-//     try {
-
-//     } catch (err: unknown) {
-//         return { undefined, err };
-//     }
-// }
+export const deleteOrderByUser = async ( req: IRequest ) => {
+    const body = req.body;
+    try {
+        const { order, err } = await getOrderByUserId(req.userAuth.id);
+        const orderConfirmed = await isOrderConfirm(order);
+        if(err || orderConfirmed){
+            throw orderConfirmed? orderConfirmed : err;
+        }
+        await Order.findOneAndDelete({_id: order?._id});
+        return { order, undefined };
+    } catch (err: unknown) {
+        return { undefined, err };
+    }
+}
 
