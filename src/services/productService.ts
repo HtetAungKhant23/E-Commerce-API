@@ -2,8 +2,22 @@ import Poroduct from "../models/productModel";
 import User from "../models/userModel";
 import { IError, IRequest } from "../types";
 
-export const findAllProduct = () => {
-    return Poroduct.find();
+export const findAllProduct = async () => {
+    return await Poroduct.find();
+}
+
+export const findProductById = async (_id: string) => {
+    try {
+        const product = await Poroduct.findById({_id});
+        if(!product){
+            const err: IError = new Error('Product not found!');
+            err.statusCode = 404;
+            throw err;
+        }
+        return { product, undefined };
+    } catch (err: unknown) {
+        return { undefined, err }; 
+    }
 }
 
 export const findProudctAndUpdate = async ( req: IRequest ) => {

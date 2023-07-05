@@ -1,5 +1,5 @@
 import { Response, NextFunction } from "express";
-import { addToCartService, findAllProduct, findProudctAndDelete, findProudctAndUpdate } from "../services/productService";
+import { addToCartService, findAllProduct, findProductById, findProudctAndDelete, findProudctAndUpdate } from "../services/productService";
 import { successResponse } from "../middlewares/errorHandlers/responseHandler";
 import Poroduct, { IProduct } from "../models/productModel";
 import { IError, IRequest } from "../types";
@@ -13,6 +13,24 @@ export const getAllProducts: any = async ( req: IRequest, res: Response, next: N
             200
         ));
     }catch(err: any){
+        next(err);
+    }
+}
+
+export const getProductById: any = async (req: IRequest, res: Response, next: NextFunction) => {
+    try {
+        const { product, err } = await findProductById(req.params.id);
+        if(err){
+            throw err;
+        }
+        res.status(200).json(
+            successResponse(
+                product,
+                'get product successful',
+                200
+            )
+        );
+    } catch( err: unknown ) {
         next(err);
     }
 }

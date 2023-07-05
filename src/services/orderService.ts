@@ -1,9 +1,9 @@
 import Address from "../models/addressModel";
-import Order, { IOrder } from "../models/orderModel";
+import Order from "../models/orderModel";
 import User from "../models/userModel";
 import { IError, IRequest } from "../types";
 
-export const getAllOrder = async () => {
+export const getOrders = async () => {
     try {
         const orders = await Order.find();
         if(!orders){
@@ -13,6 +13,20 @@ export const getAllOrder = async () => {
         }
         return { orders, undefined };
     }catch(err: unknown){
+        return { undefined, err };
+    }
+}
+
+export const getOrderById = async (_id: string) => {
+    try {
+        const order = await Order.findById({_id});
+        if(!order){
+            const err: IError = new Error('Order not found!');
+            err.statusCode = 404;
+            throw err;
+        }
+        return { order, undefined };
+    } catch (err: unknown) {
         return { undefined, err };
     }
 }
@@ -86,20 +100,6 @@ export const createAnOrder = async (req: IRequest) => {
     }
 }
 
-export const getOrderByUserId = async ( user_id: String ) => {
-    try {
-        const order = await Order.findOne({user_id});
-        if(!order){
-            const err: IError = new Error('order not found!');
-            err.statusCode = 404;
-            throw err;
-        }
-        return { order, undefined };
-    }catch(err: unknown){
-        return { undefined, err };
-    }
-}
-
 export const isOrderConfirm = async (order: any)=> {
     if(!order){
         return undefined;
@@ -114,7 +114,7 @@ export const isOrderConfirm = async (order: any)=> {
 export const updateOrderByUser = async ( req: IRequest ) => {
     const body = req.body;
     try {
-        const { order, err } = await getOrderByUserId(req.userAuth.id);
+        const { order, err } = await getOrderById(req.params.id);
         const orderConfirmed = await isOrderConfirm(order);
         if(err || orderConfirmed){
             throw orderConfirmed? orderConfirmed : err;
@@ -138,15 +138,34 @@ export const updateOrderByUser = async ( req: IRequest ) => {
 export const deleteOrderByUser = async ( req: IRequest ) => {
     const body = req.body;
     try {
-        const { order, err } = await getOrderByUserId(req.userAuth.id);
+        const { order, err } = await getOrderById(req.params.id);
         const orderConfirmed = await isOrderConfirm(order);
         if(err || orderConfirmed){
             throw orderConfirmed? orderConfirmed : err;
         }
+        await Address.findByIdAndDelete({_id:order?.address_id});
         await Order.findOneAndDelete({_id: order?._id});
         return { order, undefined };
     } catch (err: unknown) {
         return { undefined, err };
     }
 }
+
+
+
+//------------------------------------------------------------------
+// export const getOrderByUserId = async ( user_id: String ) => {
+//     try {
+//         const order = await Order.findOne({user_id});
+//         if(!order){
+//             const err: IError = new Error('order not found!');
+//             err.statusCode = 404;
+//             throw err;
+//         }
+//         return { order, undefined };
+//     }catch(err: unknown){
+//         return { undefined, err };
+//     }
+// }
+//------------------------------------------------------------------
 

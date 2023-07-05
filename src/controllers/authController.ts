@@ -31,6 +31,7 @@ export const login = async ( req: Request, res: Response, next: NextFunction ) =
         const data = {
             name: user.user_name,
             email: user.email,
+            roll: user.role,
             token: "Bearer " + token
         }
         res.status(200).json(

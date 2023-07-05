@@ -1,7 +1,7 @@
 import { Response, NextFunction } from "express";
 import { successResponse } from "../middlewares/errorHandlers/responseHandler";
 import { IRequest } from "../types";
-import { createAnOrder, deleteOrderByUser, getAllOrder, getOrderByUserId, updateOrderByUser } from "../services/orderService";
+import { createAnOrder, deleteOrderByUser, getOrderById, getOrders, updateOrderByUser } from "../services/orderService";
 
 export const createOrder:any = async (req: IRequest, res: Response, next: NextFunction) => {
     try {
@@ -21,9 +21,9 @@ export const createOrder:any = async (req: IRequest, res: Response, next: NextFu
     }
 }
 
-export const getOrder: any = async (req: IRequest, res: Response, next: NextFunction) => {
+export const getAllOrders: any = async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-        const { orders, err } = await getAllOrder();
+        const { orders, err } = await getOrders();
         if(err){
             throw err; 
         }
@@ -37,6 +37,24 @@ export const getOrder: any = async (req: IRequest, res: Response, next: NextFunc
     }catch(err: any){
         next(err);
     }    
+}
+
+export const getOrder: any = async (req: IRequest, res: Response, next: NextFunction) => {
+    try {
+        const { order, err } = await getOrderById(req.params.id);
+        if(err){
+            throw err;
+        }
+        res.status(200).json(
+            successResponse(
+                order,
+                'Get order successful',
+                200
+            )
+        );
+    } catch (err: unknown) {
+        next(err);
+    }
 }
 
 export const updateOrder: any = async (req: IRequest, res: Response, next: NextFunction) => {
@@ -77,7 +95,7 @@ export const deleteOrder: any = async (req: IRequest, res: Response, next: NextF
 
 export const orderConfirm: any = async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-        const { order, err }: any = await getOrderByUserId(req.userAuth.id);
+        const { order, err }: any = await getOrderById(req.params.id);
         if(err || order.confirm_status){
             const error =  err? err : new Error('Order is already confirmed by Admin!');
             throw error;
