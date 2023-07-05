@@ -4,7 +4,7 @@ import { isAdmin, isAuth } from "../middlewares/isAuth";
 
 const router: Router = Router();
 
-router.get('/', isAuth, getAllProducts );
+router.get('/', getAllProducts );
 router.post('/', isAuth, isAdmin, createProduct);
 router.patch('/:id', isAuth, isAdmin, updateProduct);
 router.delete('/:id', isAuth, isAdmin, deleteProduct);
